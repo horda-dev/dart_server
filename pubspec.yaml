@@ -1,0 +1,15 @@
+name: horda_server
+description: Stateful serverless backend for Flutter apps
+version: 0.9.14
+homepage: https://github.com/horda-ai/dart_server
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  horda_core: ^0.12.18
+  logging: ^1.2.0
+
+dev_dependencies:
+  lints: ^2.1.0
+  test: ^1.24.0
