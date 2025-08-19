@@ -249,8 +249,8 @@ class RefView2<E extends Actor2> extends View2 {
   String? get defaultValue => _initValue;
 }
 
-class ListView2 extends View2 {
-  ListView2({required this.name, Iterable<ActorId>? value})
+class RefListView2 extends View2 {
+  RefListView2({required this.name, Iterable<ActorId>? value})
       : _initValue = value ?? <ActorId>[];
 
   @override
