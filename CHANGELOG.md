@@ -1,3 +1,8 @@
+## 0.10.0
+
+ - **FEAT**: add a generic type to RefView2 to specify referred entity name.
+ - **BREAKING CHANGE**: rename ListView2 to RefListView2.
+
 ## 0.9.14
 
  - **FEAT**: service type.
