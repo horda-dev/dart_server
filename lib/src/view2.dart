@@ -1,5 +1,7 @@
 import 'package:horda_core/horda_core.dart';
 
+import 'actor2.dart';
+
 typedef ActorViewGroupInit<E extends RemoteEvent> = ActorViewGroup2 Function(
   E event,
 );
@@ -182,7 +184,7 @@ class CounterView2 extends View2 {
   int get defaultValue => _initValue;
 }
 
-class RefView2 extends View2 {
+class RefView2<E extends Actor2> extends View2 {
   RefView2({required this.name, required ActorId? value}) : _initValue = value;
 
   @override
