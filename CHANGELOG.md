@@ -1,3 +1,7 @@
+## 0.11.1
+
+ - **CI**: initial Github CI flow
+
 ## 0.11.0
 
  - **FEAT**: add a generic type to RefListView2 to specify referred entity name.
