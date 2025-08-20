@@ -1,3 +1,7 @@
+## 0.11.0
+
+ - **FEAT**: add a generic type to RefListView2 to specify referred entity name.
+
 ## 0.10.0
 
  - **FEAT**: add a generic type to RefView2 to specify referred entity name.
