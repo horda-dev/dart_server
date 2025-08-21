@@ -1,26 +1,26 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef ActorInitHandler2<C extends RemoteCommand, E extends RemoteEvent>
+typedef EntityInitHandler<C extends RemoteCommand, E extends RemoteEvent>
     = Future<E> Function(
   C command,
-  ActorContext2 context,
+  EntityContext context,
 );
 
-typedef ActorHandler2<S extends ActorState2, C extends RemoteCommand>
+typedef EntityHandler<S extends EntityState, C extends RemoteCommand>
     = Future<RemoteEvent> Function(
   C command,
   S state,
-  ActorContext2 context,
+  EntityContext context,
 );
 
-abstract class ActorHandlers2<S extends ActorState2> {
+abstract class EntityHandlers<S extends EntityState> {
   void addInit<C extends RemoteCommand, E extends RemoteEvent>(
-    ActorInitHandler2<C, E> handler,
+    EntityInitHandler<C, E> handler,
     FromJsonFun<C> cmdFromJson,
-    ActorStateInitProjector<E> stateInit,
+    EntityStateInitProjector<E> stateInit,
   );
   void add<C extends RemoteCommand>(
-    ActorHandler2<S, C> handler,
+    EntityHandler<S, C> handler,
     FromJsonFun<C> fromJson,
   );
   void addStateFromJson(
@@ -29,17 +29,17 @@ abstract class ActorHandlers2<S extends ActorState2> {
 }
 
 /// Actor is a worker that process commands in FIFO order.
-abstract class Actor2<S extends ActorState2> {
+abstract class Entity<S extends EntityState> {
   String get name => runtimeType.toString();
 
-  void initHandlers(ActorHandlers2<S> handlers);
+  void initHandlers(EntityHandlers<S> handlers);
 
-  void initMigrations(ActorStateMigrations migrations);
+  void initMigrations(EntityStateMigrations migrations);
 }
 
-abstract class ActorContext2 {
+abstract class EntityContext {
   /// Id of an actor that handles current command
-  ActorId get actorId;
+  ActorId get entityId;
 
   /// Id of an actor or a flow that sent current command
   ActorId get senderId;
@@ -53,25 +53,25 @@ abstract class ActorContext2 {
   void stop();
 }
 
-typedef ActorStateInitProjector<E extends RemoteEvent> = ActorState2 Function(
+typedef EntityStateInitProjector<E extends RemoteEvent> = EntityState Function(
   E event,
 );
 
-abstract class ActorState2 {
+abstract class EntityState {
   void project(RemoteEvent event);
 
   Map<String, dynamic> toJson();
 }
 
-abstract class ActorStateMigrations {
-  void add(ActorStateMigration migration);
+abstract class EntityStateMigrations {
+  void add(EntityStateMigration migration);
 
   Map<String, dynamic> migrate(int fromVersion, Map<String, dynamic> fromState);
 
   int get latestVersion;
 }
 
-abstract class ActorStateMigration {
+abstract class EntityStateMigration {
   Map<String, dynamic> migrate(Map<String, dynamic> from);
 
   int get version;
