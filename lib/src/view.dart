@@ -2,12 +2,11 @@ import 'package:horda_core/horda_core.dart';
 
 import 'entity.dart';
 
-typedef EntityViewGroupInit<E extends RemoteEvent> = EntityViewGroup Function(
-  E event,
-);
+typedef EntityViewGroupInit<E extends RemoteEvent> =
+    EntityViewGroup Function(E event);
 
-typedef EntityViewGroupProjector<E extends RemoteEvent> = void Function(
-    E event);
+typedef EntityViewGroupProjector<E extends RemoteEvent> =
+    void Function(E event);
 
 abstract class EntityViewGroupProjectors {
   void addInit<E extends RemoteEvent>(EntityViewGroupInit<E> projector);
@@ -118,9 +117,7 @@ class ValueView<T> extends View {
     // that might be called multiple times
     final change = _change;
     _change = null;
-    return [
-      change!,
-    ];
+    return [change!];
   }
 
   final T _initValue;
@@ -153,12 +150,7 @@ class CounterView extends View {
     assert(entityId != null, 'view group host must set entityId');
 
     return [
-      InitViewData(
-        key: entityId!,
-        name: name,
-        value: _initValue,
-        type: 'int',
-      ),
+      InitViewData(key: entityId!, name: name, value: _initValue, type: 'int'),
     ];
   }
 
@@ -171,9 +163,7 @@ class CounterView extends View {
     // we do it here as change() called only once
     // for the change projection, opposite to setValue
     // that might be called multiple times
-    final changes = [
-      ..._changes,
-    ];
+    final changes = [..._changes];
     _changes.clear();
     return changes;
   }
@@ -199,11 +189,7 @@ class RefView<E extends Entity> extends View {
   ValueRefAttribute<T> valueAttr<T>(EntityId attrId, String attrName) {
     assert(entityId != null, 'view group host must set entityId');
 
-    return ValueRefAttribute(
-      attrId,
-      attrName,
-      _attrChanges,
-    );
+    return ValueRefAttribute(attrId, attrName, _attrChanges);
   }
 
   @override
@@ -252,7 +238,7 @@ class RefView<E extends Entity> extends View {
 
 class RefListView<E extends Entity> extends View {
   RefListView({required this.name, Iterable<EntityId>? value})
-      : _initValue = value ?? <EntityId>[];
+    : _initValue = value ?? <EntityId>[];
 
   @override
   final String name;
@@ -271,10 +257,7 @@ class RefListView<E extends Entity> extends View {
 
   void changeItem(EntityId oldItemId, EntityId newItemId) {
     _changes.add(
-      ListViewItemChanged(
-        oldItemId: oldItemId,
-        newItemId: newItemId,
-      ),
+      ListViewItemChanged(oldItemId: oldItemId, newItemId: newItemId),
     );
   }
 
@@ -292,11 +275,7 @@ class RefListView<E extends Entity> extends View {
   CounterAttribute counterAttr(EntityId itemId, String attrName) {
     assert(entityId != null, 'view group host must set entityId');
 
-    return CounterAttribute(
-      itemId,
-      attrName,
-      _attrChanges,
-    );
+    return CounterAttribute(itemId, attrName, _attrChanges);
   }
 
   /// returns value attribute with the given name for modification
@@ -305,11 +284,7 @@ class RefListView<E extends Entity> extends View {
   ValueRefAttribute<T> valueAttr<T>(EntityId itemId, String attrName) {
     assert(entityId != null, 'view group host must set entityId');
 
-    return ValueRefAttribute(
-      itemId,
-      attrName,
-      _attrChanges,
-    );
+    return ValueRefAttribute(itemId, attrName, _attrChanges);
   }
 
   @override
@@ -356,11 +331,8 @@ class RefListView<E extends Entity> extends View {
 }
 
 class CounterAttribute {
-  CounterAttribute(
-    EntityId attrId,
-    EntityId attrName,
-    this._changes,
-  ) : _key = (itemId: attrId, name: attrName);
+  CounterAttribute(EntityId attrId, EntityId attrName, this._changes)
+    : _key = (itemId: attrId, name: attrName);
 
   void increment(int by) {
     _changes[_key] = CounterAttrIncremented(
@@ -391,11 +363,8 @@ class CounterAttribute {
 }
 
 class ValueRefAttribute<T> {
-  ValueRefAttribute(
-    EntityId attrId,
-    String attrName,
-    this._changes,
-  ) : _key = (itemId: attrId, name: attrName);
+  ValueRefAttribute(EntityId attrId, String attrName, this._changes)
+    : _key = (itemId: attrId, name: attrName);
 
   set value(T newValue) {
     _changes[_key] = RefValueAttributeChanged(

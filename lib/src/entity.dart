@@ -1,17 +1,10 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef EntityInitHandler<C extends RemoteCommand, E extends RemoteEvent>
-    = Future<E> Function(
-  C command,
-  EntityContext context,
-);
+typedef EntityInitHandler<C extends RemoteCommand, E extends RemoteEvent> =
+    Future<E> Function(C command, EntityContext context);
 
-typedef EntityHandler<S extends EntityState, C extends RemoteCommand>
-    = Future<RemoteEvent> Function(
-  C command,
-  S state,
-  EntityContext context,
-);
+typedef EntityHandler<S extends EntityState, C extends RemoteCommand> =
+    Future<RemoteEvent> Function(C command, S state, EntityContext context);
 
 abstract class EntityHandlers<S extends EntityState> {
   void addInit<C extends RemoteCommand, E extends RemoteEvent>(
@@ -23,9 +16,7 @@ abstract class EntityHandlers<S extends EntityState> {
     EntityHandler<S, C> handler,
     FromJsonFun<C> fromJson,
   );
-  void addStateFromJson(
-    FromJsonFun<S> fromJson,
-  );
+  void addStateFromJson(FromJsonFun<S> fromJson);
 }
 
 /// Actor is a worker that process commands in FIFO order.
@@ -53,9 +44,8 @@ abstract class EntityContext {
   void stop();
 }
 
-typedef EntityStateInitProjector<E extends RemoteEvent> = EntityState Function(
-  E event,
-);
+typedef EntityStateInitProjector<E extends RemoteEvent> =
+    EntityState Function(E event);
 
 abstract class EntityState {
   void project(RemoteEvent event);

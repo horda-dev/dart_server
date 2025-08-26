@@ -1,9 +1,7 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef ProcessHandler<E extends RemoteEvent> = Future<FlowResult> Function(
-  E event,
-  ProcessContext context,
-);
+typedef ProcessHandler<E extends RemoteEvent> =
+    Future<FlowResult> Function(E event, ProcessContext context);
 
 abstract class ProcessHandlers {
   void add<E extends RemoteEvent>(
@@ -53,10 +51,7 @@ abstract class ProcessContext {
     required RemoteCommand cmd,
   });
 
-  void unscheduleEntity({
-    required String name,
-    required String scheduleId,
-  });
+  void unscheduleEntity({required String name, required String scheduleId});
 
   //
   // Service
@@ -75,10 +70,7 @@ abstract class ProcessContext {
     required List<FromJsonFun<RemoteEvent>> fac,
   });
 
-  void sendService({
-    required String name,
-    required RemoteCommand cmd,
-  });
+  void sendService({required String name, required RemoteCommand cmd});
 
   /// returns id that can be used for unschedule
   Future<String> scheduleService({
@@ -87,8 +79,5 @@ abstract class ProcessContext {
     required RemoteCommand cmd,
   });
 
-  void unscheduleService({
-    required String name,
-    required String scheduleId,
-  });
+  void unscheduleService({required String name, required String scheduleId});
 }

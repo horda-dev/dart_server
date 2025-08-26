@@ -1,9 +1,7 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef ServiceHandler<C extends RemoteCommand> = Future<RemoteEvent> Function(
-  C command,
-  ServiceContext context,
-);
+typedef ServiceHandler<C extends RemoteCommand> =
+    Future<RemoteEvent> Function(C command, ServiceContext context);
 
 abstract class ServiceHandlers {
   void add<C extends RemoteCommand>(
