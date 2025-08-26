@@ -1,39 +1,39 @@
 import 'package:horda_core/horda_core.dart';
 
-import 'actor2.dart';
+import 'entity.dart';
 
-typedef ActorViewGroupInit<E extends RemoteEvent> = ActorViewGroup2 Function(
-  E event,
-);
+typedef EntityViewGroupInit<E extends RemoteEvent> =
+    EntityViewGroup Function(E event);
 
-typedef ActorViewGroupProjector<E extends RemoteEvent> = void Function(E event);
+typedef EntityViewGroupProjector<E extends RemoteEvent> =
+    void Function(E event);
 
-abstract class ActorViewGroupProjectors {
-  void addInit<E extends RemoteEvent>(ActorViewGroupInit<E> projector);
-  void add<E extends RemoteEvent>(ActorViewGroupProjector<E> projector);
+abstract class EntityViewGroupProjectors {
+  void addInit<E extends RemoteEvent>(EntityViewGroupInit<E> projector);
+  void add<E extends RemoteEvent>(EntityViewGroupProjector<E> projector);
 }
 
-abstract class ActorViewGroup2 {
-  void initViews(ViewGroup2 views);
-  void initProjectors(ActorViewGroupProjectors projectors);
+abstract class EntityViewGroup {
+  void initViews(ViewGroup views);
+  void initProjectors(EntityViewGroupProjectors projectors);
 }
 
-class NoViewGroup2<E extends RemoteEvent> implements ActorViewGroup2 {
+class NoViewGroup<E extends RemoteEvent> implements EntityViewGroup {
   @override
-  void initViews(ViewGroup2 group) {
+  void initViews(ViewGroup group) {
     // noop
   }
 
   @override
-  void initProjectors(ActorViewGroupProjectors projectors) {
+  void initProjectors(EntityViewGroupProjectors projectors) {
     // noop
   }
 }
 
-abstract class View2 {
+abstract class View {
   // this is set by view host once
   // view has added to the view group
-  ActorId? actorId;
+  EntityId? entityId;
 
   dynamic get defaultValue;
 
@@ -44,8 +44,8 @@ abstract class View2 {
   Iterable<Change> changes();
 }
 
-abstract class ViewGroup2 {
-  void add(View2 view);
+abstract class ViewGroup {
+  void add(View view);
 }
 
 class InitViewData {
@@ -82,8 +82,8 @@ class InitViewData {
   }
 }
 
-class ValueView2<T> extends View2 {
-  ValueView2({required this.name, required T value}) : _initValue = value;
+class ValueView<T> extends View {
+  ValueView({required this.name, required T value}) : _initValue = value;
 
   @override
   final String name;
@@ -94,11 +94,11 @@ class ValueView2<T> extends View2 {
 
   @override
   Iterable<InitViewData> initValues() {
-    assert(actorId != null, 'view group host must set actorId');
+    assert(entityId != null, 'view group host must set entityId');
 
     return [
       InitViewData(
-        key: actorId!,
+        key: entityId!,
         name: name,
         value: _initValue,
         type: T.toString(),
@@ -117,9 +117,7 @@ class ValueView2<T> extends View2 {
     // that might be called multiple times
     final change = _change;
     _change = null;
-    return [
-      change!,
-    ];
+    return [change!];
   }
 
   final T _initValue;
@@ -129,8 +127,8 @@ class ValueView2<T> extends View2 {
   T get defaultValue => _initValue;
 }
 
-class CounterView2 extends View2 {
-  CounterView2({required this.name, int value = 0}) : _initValue = value;
+class CounterView extends View {
+  CounterView({required this.name, int value = 0}) : _initValue = value;
 
   @override
   final String name;
@@ -149,15 +147,10 @@ class CounterView2 extends View2 {
 
   @override
   Iterable<InitViewData> initValues() {
-    assert(actorId != null, 'view group host must set actorId');
+    assert(entityId != null, 'view group host must set entityId');
 
     return [
-      InitViewData(
-        key: actorId!,
-        name: name,
-        value: _initValue,
-        type: 'int',
-      ),
+      InitViewData(key: entityId!, name: name, value: _initValue, type: 'int'),
     ];
   }
 
@@ -170,9 +163,7 @@ class CounterView2 extends View2 {
     // we do it here as change() called only once
     // for the change projection, opposite to setValue
     // that might be called multiple times
-    final changes = [
-      ..._changes,
-    ];
+    final changes = [..._changes];
     _changes.clear();
     return changes;
   }
@@ -184,34 +175,30 @@ class CounterView2 extends View2 {
   int get defaultValue => _initValue;
 }
 
-class RefView2<E extends Actor2> extends View2 {
-  RefView2({required this.name, required ActorId? value}) : _initValue = value;
+class RefView<E extends Entity> extends View {
+  RefView({required this.name, required EntityId? value}) : _initValue = value;
 
   @override
   final String name;
 
-  set value(ActorId? newValue) {
+  set value(EntityId? newValue) {
     _change = RefViewChanged(newValue);
   }
 
   /// returns ref value attribute with the given name for modification
-  ValueRefAttribute2<T> valueAttr<T>(ActorId attrId, String attrName) {
-    assert(actorId != null, 'view group host must set actorId');
+  ValueRefAttribute<T> valueAttr<T>(EntityId attrId, String attrName) {
+    assert(entityId != null, 'view group host must set entityId');
 
-    return ValueRefAttribute2(
-      attrId,
-      attrName,
-      _attrChanges,
-    );
+    return ValueRefAttribute(attrId, attrName, _attrChanges);
   }
 
   @override
   Iterable<InitViewData> initValues() {
-    assert(actorId != null, 'view group host must set actorId');
+    assert(entityId != null, 'view group host must set entityId');
 
     return [
       InitViewData(
-        key: actorId!,
+        key: entityId!,
         name: name,
         value: _initValue,
         type: 'String?',
@@ -243,41 +230,38 @@ class RefView2<E extends Actor2> extends View2 {
   RefViewChanged? _change;
 
   // TODO: change to list
-  final _attrChanges = <RefIdNamePair, RefValueAttributeChanged2>{};
+  final _attrChanges = <RefIdNamePair, RefValueAttributeChanged>{};
 
   @override
   String? get defaultValue => _initValue;
 }
 
-class RefListView2<E extends Actor2> extends View2 {
-  RefListView2({required this.name, Iterable<ActorId>? value})
-      : _initValue = value ?? <ActorId>[];
+class RefListView<E extends Entity> extends View {
+  RefListView({required this.name, Iterable<EntityId>? value})
+    : _initValue = value ?? <EntityId>[];
 
   @override
   final String name;
 
-  void addItem(ActorId itemId) {
+  void addItem(EntityId itemId) {
     _changes.add(ListViewItemAdded(itemId));
   }
 
-  void addItemIfAbsent(ActorId itemId) {
+  void addItemIfAbsent(EntityId itemId) {
     _changes.add(ListViewItemAddedIfAbsent(itemId));
   }
 
-  void removeItem(ActorId itemId) {
+  void removeItem(EntityId itemId) {
     _changes.add(ListViewItemRemoved(itemId));
   }
 
-  void changeItem(ActorId oldItemId, ActorId newItemId) {
+  void changeItem(EntityId oldItemId, EntityId newItemId) {
     _changes.add(
-      ListViewItemChanged(
-        oldItemId: oldItemId,
-        newItemId: newItemId,
-      ),
+      ListViewItemChanged(oldItemId: oldItemId, newItemId: newItemId),
     );
   }
 
-  void moveItem(ActorId itemId, int newIndex) {
+  void moveItem(EntityId itemId, int newIndex) {
     _changes.add(ListViewItemMoved(itemId, newIndex));
   }
 
@@ -288,36 +272,28 @@ class RefListView2<E extends Actor2> extends View2 {
   /// returns counter attribute with the given name for modification
   /// if attribute with the given name doesn't exist, it will be created
   /// by the first event, assuming initial value is zero
-  CounterAttribute2 counterAttr(ActorId itemId, String attrName) {
-    assert(actorId != null, 'view group host must set actorId');
+  CounterAttribute counterAttr(EntityId itemId, String attrName) {
+    assert(entityId != null, 'view group host must set entityId');
 
-    return CounterAttribute2(
-      itemId,
-      attrName,
-      _attrChanges,
-    );
+    return CounterAttribute(itemId, attrName, _attrChanges);
   }
 
   /// returns value attribute with the given name for modification
   /// if attribute with the given name doesn't exist, it will be created
   /// by the first event, assuming initial value is zero
-  ValueRefAttribute2<T> valueAttr<T>(ActorId itemId, String attrName) {
-    assert(actorId != null, 'view group host must set actorId');
+  ValueRefAttribute<T> valueAttr<T>(EntityId itemId, String attrName) {
+    assert(entityId != null, 'view group host must set entityId');
 
-    return ValueRefAttribute2(
-      itemId,
-      attrName,
-      _attrChanges,
-    );
+    return ValueRefAttribute(itemId, attrName, _attrChanges);
   }
 
   @override
   Iterable<InitViewData> initValues() {
-    assert(actorId != null, 'view group host must set actorId');
+    assert(entityId != null, 'view group host must set entityId');
 
     return [
       InitViewData(
-        key: actorId!,
+        key: entityId!,
         name: name,
         value: _initValue,
         type: 'List<String>',
@@ -354,15 +330,12 @@ class RefListView2<E extends Actor2> extends View2 {
   Iterable<String> get defaultValue => _initValue;
 }
 
-class CounterAttribute2 {
-  CounterAttribute2(
-    ActorId attrId,
-    ActorId attrName,
-    this._changes,
-  ) : _key = (itemId: attrId, name: attrName);
+class CounterAttribute {
+  CounterAttribute(EntityId attrId, EntityId attrName, this._changes)
+    : _key = (itemId: attrId, name: attrName);
 
   void increment(int by) {
-    _changes[_key] = CounterAttrIncremented2(
+    _changes[_key] = CounterAttrIncremented(
       attrId: _key.itemId,
       attrName: _key.name,
       by: by,
@@ -370,7 +343,7 @@ class CounterAttribute2 {
   }
 
   void decrement(int by) {
-    _changes[_key] = CounterAttrDecremented2(
+    _changes[_key] = CounterAttrDecremented(
       attrId: _key.itemId,
       attrName: _key.name,
       by: by,
@@ -378,7 +351,7 @@ class CounterAttribute2 {
   }
 
   void reset(int newValue) {
-    _changes[_key] = CounterAttrReset2(
+    _changes[_key] = CounterAttrReset(
       attrId: _key.itemId,
       attrName: _key.name,
       newValue: newValue,
@@ -389,15 +362,12 @@ class CounterAttribute2 {
   final Map<RefIdNamePair, Change> _changes;
 }
 
-class ValueRefAttribute2<T> {
-  ValueRefAttribute2(
-    ActorId attrId,
-    String attrName,
-    this._changes,
-  ) : _key = (itemId: attrId, name: attrName);
+class ValueRefAttribute<T> {
+  ValueRefAttribute(EntityId attrId, String attrName, this._changes)
+    : _key = (itemId: attrId, name: attrName);
 
   set value(T newValue) {
-    _changes[_key] = RefValueAttributeChanged2(
+    _changes[_key] = RefValueAttributeChanged(
       attrId: _key.itemId,
       attrName: _key.name,
       newValue: newValue,

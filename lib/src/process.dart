@@ -1,62 +1,57 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef FlowHandler2<E extends RemoteEvent> = Future<FlowResult2> Function(
-  E event,
-  FlowContext2 context,
-);
+typedef ProcessHandler<E extends RemoteEvent> =
+    Future<FlowResult> Function(E event, ProcessContext context);
 
-abstract class FlowHandlers2 {
+abstract class ProcessHandlers {
   void add<E extends RemoteEvent>(
-    FlowHandler2<E> handler,
+    ProcessHandler<E> handler,
     FromJsonFun<E> fromJson,
   );
 }
 
-abstract class Flow2 {
-  void initHandlers(FlowHandlers2 handlers);
+abstract class Process {
+  void initHandlers(ProcessHandlers handlers);
 }
 
-abstract class FlowContext2 {
-  String get flowId;
+abstract class ProcessContext {
+  String get processId;
 
   String get senderId;
 
   //
-  // Actor
+  // Entity
   //
 
-  Future<E> callActor<E extends RemoteEvent>({
+  Future<E> callEntity<E extends RemoteEvent>({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
     required FromJsonFun<E> fac,
   });
 
-  Future<RemoteEvent> callActorDynamic({
+  Future<RemoteEvent> callEntityDynamic({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
     required List<FromJsonFun<RemoteEvent>> fac,
   });
 
-  void sendActor({
+  void sendEntity({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
   });
 
   /// returns id that can be used for unschedule
-  Future<String> scheduleActor({
+  Future<String> scheduleEntity({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required Duration after,
     required RemoteCommand cmd,
   });
 
-  void unscheduleActor({
-    required String name,
-    required String scheduleId,
-  });
+  void unscheduleEntity({required String name, required String scheduleId});
 
   //
   // Service
@@ -75,10 +70,7 @@ abstract class FlowContext2 {
     required List<FromJsonFun<RemoteEvent>> fac,
   });
 
-  void sendService({
-    required String name,
-    required RemoteCommand cmd,
-  });
+  void sendService({required String name, required RemoteCommand cmd});
 
   /// returns id that can be used for unschedule
   Future<String> scheduleService({
@@ -87,8 +79,5 @@ abstract class FlowContext2 {
     required RemoteCommand cmd,
   });
 
-  void unscheduleService({
-    required String name,
-    required String scheduleId,
-  });
+  void unscheduleService({required String name, required String scheduleId});
 }
