@@ -1,6 +1,6 @@
 import 'package:horda_core/horda_core.dart';
 
-typedef ProcessHandler<E extends RemoteEvent> = Future<FlowResult2> Function(
+typedef ProcessHandler<E extends RemoteEvent> = Future<FlowResult> Function(
   E event,
   ProcessContext context,
 );
