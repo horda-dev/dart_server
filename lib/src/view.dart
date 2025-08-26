@@ -244,7 +244,7 @@ class RefView<E extends Entity> extends View {
   RefViewChanged? _change;
 
   // TODO: change to list
-  final _attrChanges = <RefIdNamePair, RefValueAttributeChanged2>{};
+  final _attrChanges = <RefIdNamePair, RefValueAttributeChanged>{};
 
   @override
   String? get defaultValue => _initValue;
@@ -363,7 +363,7 @@ class CounterAttribute {
   ) : _key = (itemId: attrId, name: attrName);
 
   void increment(int by) {
-    _changes[_key] = CounterAttrIncremented2(
+    _changes[_key] = CounterAttrIncremented(
       attrId: _key.itemId,
       attrName: _key.name,
       by: by,
@@ -371,7 +371,7 @@ class CounterAttribute {
   }
 
   void decrement(int by) {
-    _changes[_key] = CounterAttrDecremented2(
+    _changes[_key] = CounterAttrDecremented(
       attrId: _key.itemId,
       attrName: _key.name,
       by: by,
@@ -379,7 +379,7 @@ class CounterAttribute {
   }
 
   void reset(int newValue) {
-    _changes[_key] = CounterAttrReset2(
+    _changes[_key] = CounterAttrReset(
       attrId: _key.itemId,
       attrName: _key.name,
       newValue: newValue,
@@ -398,7 +398,7 @@ class ValueRefAttribute<T> {
   ) : _key = (itemId: attrId, name: attrName);
 
   set value(T newValue) {
-    _changes[_key] = RefValueAttributeChanged2(
+    _changes[_key] = RefValueAttributeChanged(
       attrId: _key.itemId,
       attrName: _key.name,
       newValue: newValue,

@@ -48,7 +48,7 @@ abstract class EntityContext {
 
   // Logger get logger;
 
-  Future<QueryResult2> query(ActorId actorId, QueryDef query);
+  Future<QueryResult> query(ActorId actorId, QueryDef query);
 
   void stop();
 }
