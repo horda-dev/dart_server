@@ -22,7 +22,7 @@ abstract class Service {
 
 abstract class ServiceContext {
   /// Id of an actor or a flow that sent current command
-  ActorId get senderId;
+  EntityId get senderId;
 
   DateTime get clock;
 }

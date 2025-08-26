@@ -27,28 +27,28 @@ abstract class ProcessContext {
 
   Future<E> callEntity<E extends RemoteEvent>({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
     required FromJsonFun<E> fac,
   });
 
   Future<RemoteEvent> callEntityDynamic({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
     required List<FromJsonFun<RemoteEvent>> fac,
   });
 
   void sendEntity({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required RemoteCommand cmd,
   });
 
   /// returns id that can be used for unschedule
   Future<String> scheduleEntity({
     required String name,
-    required ActorId id,
+    required EntityId id,
     required Duration after,
     required RemoteCommand cmd,
   });

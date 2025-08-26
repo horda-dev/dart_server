@@ -34,7 +34,7 @@ class NoViewGroup<E extends RemoteEvent> implements EntityViewGroup {
 abstract class View {
   // this is set by view host once
   // view has added to the view group
-  ActorId? entityId;
+  EntityId? entityId;
 
   dynamic get defaultValue;
 
@@ -186,17 +186,17 @@ class CounterView extends View {
 }
 
 class RefView<E extends Entity> extends View {
-  RefView({required this.name, required ActorId? value}) : _initValue = value;
+  RefView({required this.name, required EntityId? value}) : _initValue = value;
 
   @override
   final String name;
 
-  set value(ActorId? newValue) {
+  set value(EntityId? newValue) {
     _change = RefViewChanged(newValue);
   }
 
   /// returns ref value attribute with the given name for modification
-  ValueRefAttribute<T> valueAttr<T>(ActorId attrId, String attrName) {
+  ValueRefAttribute<T> valueAttr<T>(EntityId attrId, String attrName) {
     assert(entityId != null, 'view group host must set entityId');
 
     return ValueRefAttribute(
@@ -251,25 +251,25 @@ class RefView<E extends Entity> extends View {
 }
 
 class RefListView<E extends Entity> extends View {
-  RefListView({required this.name, Iterable<ActorId>? value})
-      : _initValue = value ?? <ActorId>[];
+  RefListView({required this.name, Iterable<EntityId>? value})
+      : _initValue = value ?? <EntityId>[];
 
   @override
   final String name;
 
-  void addItem(ActorId itemId) {
+  void addItem(EntityId itemId) {
     _changes.add(ListViewItemAdded(itemId));
   }
 
-  void addItemIfAbsent(ActorId itemId) {
+  void addItemIfAbsent(EntityId itemId) {
     _changes.add(ListViewItemAddedIfAbsent(itemId));
   }
 
-  void removeItem(ActorId itemId) {
+  void removeItem(EntityId itemId) {
     _changes.add(ListViewItemRemoved(itemId));
   }
 
-  void changeItem(ActorId oldItemId, ActorId newItemId) {
+  void changeItem(EntityId oldItemId, EntityId newItemId) {
     _changes.add(
       ListViewItemChanged(
         oldItemId: oldItemId,
@@ -278,7 +278,7 @@ class RefListView<E extends Entity> extends View {
     );
   }
 
-  void moveItem(ActorId itemId, int newIndex) {
+  void moveItem(EntityId itemId, int newIndex) {
     _changes.add(ListViewItemMoved(itemId, newIndex));
   }
 
@@ -289,8 +289,8 @@ class RefListView<E extends Entity> extends View {
   /// returns counter attribute with the given name for modification
   /// if attribute with the given name doesn't exist, it will be created
   /// by the first event, assuming initial value is zero
-  CounterAttribute counterAttr(ActorId itemId, String attrName) {
-    assert(entityId != null, 'view group host must set actorId');
+  CounterAttribute counterAttr(EntityId itemId, String attrName) {
+    assert(entityId != null, 'view group host must set entityId');
 
     return CounterAttribute(
       itemId,
@@ -302,7 +302,7 @@ class RefListView<E extends Entity> extends View {
   /// returns value attribute with the given name for modification
   /// if attribute with the given name doesn't exist, it will be created
   /// by the first event, assuming initial value is zero
-  ValueRefAttribute<T> valueAttr<T>(ActorId itemId, String attrName) {
+  ValueRefAttribute<T> valueAttr<T>(EntityId itemId, String attrName) {
     assert(entityId != null, 'view group host must set entityId');
 
     return ValueRefAttribute(
@@ -357,8 +357,8 @@ class RefListView<E extends Entity> extends View {
 
 class CounterAttribute {
   CounterAttribute(
-    ActorId attrId,
-    ActorId attrName,
+    EntityId attrId,
+    EntityId attrName,
     this._changes,
   ) : _key = (itemId: attrId, name: attrName);
 
@@ -392,7 +392,7 @@ class CounterAttribute {
 
 class ValueRefAttribute<T> {
   ValueRefAttribute(
-    ActorId attrId,
+    EntityId attrId,
     String attrName,
     this._changes,
   ) : _key = (itemId: attrId, name: attrName);

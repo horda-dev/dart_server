@@ -39,16 +39,16 @@ abstract class Entity<S extends EntityState> {
 
 abstract class EntityContext {
   /// Id of an actor that handles current command
-  ActorId get entityId;
+  EntityId get entityId;
 
   /// Id of an actor or a flow that sent current command
-  ActorId get senderId;
+  EntityId get senderId;
 
   DateTime get clock;
 
   // Logger get logger;
 
-  Future<QueryResult> query(ActorId actorId, QueryDef query);
+  Future<QueryResult> query(EntityId entityId, QueryDef query);
 
   void stop();
 }
