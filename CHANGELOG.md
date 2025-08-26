@@ -1,3 +1,8 @@
+## 0.12.0
+
+ - **BREAKING CHANGE**: rename public API
+ - **CI**: add publish Github workflow
+
 ## 0.11.1
 
  - **CI**: initial Github CI flow
