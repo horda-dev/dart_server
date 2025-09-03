@@ -2,7 +2,7 @@
 
 [![Pub Package](https://img.shields.io/pub/v/horda_server.svg)](https://pub.dev/packages/horda_server)
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/horda_server)](https://pub.dev/packages/horda_server)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 *Stateful serverless backend framework for Flutter applications*
 
@@ -448,7 +448,7 @@ Horda Server provides strongly typed Dart APIs that integrate seamlessly with Fl
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
 
 ## Links
 
