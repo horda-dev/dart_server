@@ -1,3 +1,8 @@
+## 0.12.1
+
+ - **DOCS**: readme file
+ - **DOCS**: add doc comments for all public types
+
 ## 0.12.0
 
  - **BREAKING CHANGE**: rename public API
