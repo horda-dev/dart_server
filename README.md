@@ -4,7 +4,7 @@
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/horda_server)](https://pub.dev/packages/horda_server)
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-*Stateful serverless backend for ambitions Flutter applications.*
+*Stateful serverless backend for ambitious Flutter applications.*
 
 ## What is Horda Server?
 
@@ -53,7 +53,7 @@ Services are stateless components that perform auxiliary tasks supporting busine
 
 Views provide public representations of entity data that can be accessed by Flutter apps. They:
 
-- Offer real-time updates when underlying entity produces an event
+- Offer real-time updates when the underlying entity produces an event
 - Support various types: single values, counters, entity references, and lists
 - Enable efficient querying without exposing private entity state
 
