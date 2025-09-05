@@ -1,4 +1,4 @@
-# Horda Server
+# Horda Server for Dart language
 
 [![Pub Package](https://img.shields.io/pub/v/horda_server.svg)](https://pub.dev/packages/horda_server)
 [![Dart SDK Version](https://badgen.net/pub/sdk-version/horda_server)](https://pub.dev/packages/horda_server)
