@@ -3,53 +3,55 @@ import 'package:horda_core/horda_core.dart';
 import 'entity.dart';
 
 /// Function that initializes an EntityViewGroup from an entity init event.
-/// 
+///
 /// Called when an entity is first created to establish its view group
 /// from the data contained in the initialization event.
 typedef EntityViewGroupInit<E extends RemoteEvent> =
     EntityViewGroup Function(E event);
 
 /// Function that projects events to update entity views.
-/// 
+///
 /// Called when events are produced to update view data based on event payload.
 /// Projectors modify view state to reflect changes in the entity.
 typedef EntityViewGroupProjector<E extends RemoteEvent> =
     void Function(E event);
 
 /// Registry for entity view group projectors.
-/// 
+///
 /// Manages the registration of projector functions that update
 /// entity views in response to events.
 abstract class EntityViewGroupProjectors {
   /// Registers an initialization projector for creating view groups from init events.
-  /// 
+  ///
   /// [projector] - Function that creates view group from init event
   void addInit<E extends RemoteEvent>(EntityViewGroupInit<E> projector);
-  
+
   /// Registers an event projector for updating existing views.
-  /// 
+  ///
   /// [projector] - Function that updates views based on event data
   void add<E extends RemoteEvent>(EntityViewGroupProjector<E> projector);
 }
 
 /// Collection of views that represent queryable data derived from an entity.
-/// 
+///
 /// EntityViewGroup provides read-optimized representations of entity data
 /// that can be queried by business processes or external clients.
+///
+/// A view group must has a working default, 0 argument constructor.
 abstract class EntityViewGroup {
   /// Registers all views that belong to this entity.
-  /// 
+  ///
   /// [views] - View group registry to add views to
   void initViews(ViewGroup views);
-  
+
   /// Registers projectors that update views when events occur.
-  /// 
+  ///
   /// [projectors] - Projector registry to add event handlers to
   void initProjectors(EntityViewGroupProjectors projectors);
 }
 
 /// Empty view group implementation for entities that don't expose queryable views.
-/// 
+///
 /// Used when an entity doesn't need to provide any read-optimized data views
 /// to external components.
 class NoViewGroup<E extends RemoteEvent> implements EntityViewGroup {
@@ -65,7 +67,7 @@ class NoViewGroup<E extends RemoteEvent> implements EntityViewGroup {
 }
 
 /// Queryable data view derived from entity state.
-/// 
+///
 /// Provides read-optimized access to specific aspects of entity data
 /// that can be queried by business processes or external clients.
 abstract class View {
@@ -86,23 +88,23 @@ abstract class View {
 }
 
 /// Registry for entity views.
-/// 
+///
 /// Manages the collection of views that provide queryable data
 /// representations of an entity's state.
 abstract class ViewGroup {
   /// Adds a view to this entity's view group.
-  /// 
+  ///
   /// [view] - View instance to register
   void add(View view);
 }
 
 /// Initial data for a view when an entity is first created.
-/// 
+///
 /// Contains the metadata and initial value needed to establish
 /// a queryable view for an entity.
 class InitViewData {
   /// Creates initial view data.
-  /// 
+  ///
   /// [key] - Entity identifier this view belongs to
   /// [name] - View name within the entity
   /// [value] - Initial value for the view
@@ -145,12 +147,12 @@ class InitViewData {
 }
 
 /// View that holds a single typed value that can be queried and updated.
-/// 
+///
 /// Provides a simple queryable representation of a single data field
 /// from the entity's state.
 class ValueView<T> extends View {
   /// Creates a value view with an initial value.
-  /// 
+  ///
   /// [name] - Unique name for this view
   /// [value] - Initial value
   ValueView({required this.name, required T value}) : _initValue = value;
@@ -198,12 +200,12 @@ class ValueView<T> extends View {
 }
 
 /// View that maintains an integer counter that can be incremented, decremented, or reset.
-/// 
+///
 /// Provides a queryable counter representation useful for tracking quantities,
 /// counts, or numeric metrics derived from entity events.
 class CounterView extends View {
   /// Creates a counter view with an initial value.
-  /// 
+  ///
   /// [name] - Unique name for this view
   /// [value] - Initial counter value (defaults to 0)
   CounterView({required this.name, int value = 0}) : _initValue = value;
@@ -254,12 +256,12 @@ class CounterView extends View {
 }
 
 /// View that holds a reference to another entity with optional attributes.
-/// 
+///
 /// Provides a queryable representation of relationships between entities,
 /// allowing access to referenced entity data and attributes.
 class RefView<E extends Entity> extends View {
   /// Creates a reference view with an initial entity reference.
-  /// 
+  ///
   /// [name] - Unique name for this view
   /// [value] - Initial entity reference (can be null)
   RefView({required this.name, required EntityId? value}) : _initValue = value;
@@ -323,12 +325,12 @@ class RefView<E extends Entity> extends View {
 }
 
 /// View that maintains a list of entity references with attributes.
-/// 
+///
 /// Provides a queryable collection of entity relationships, supporting
 /// list operations and per-item attributes for complex data structures.
 class RefListView<E extends Entity> extends View {
   /// Creates a reference list view with initial entity references.
-  /// 
+  ///
   /// [name] - Unique name for this view
   /// [value] - Initial list of entity references (defaults to empty)
   RefListView({required this.name, Iterable<EntityId>? value})
@@ -425,12 +427,12 @@ class RefListView<E extends Entity> extends View {
 }
 
 /// Counter attribute attached to items in reference views.
-/// 
+///
 /// Provides increment, decrement, and reset operations for numeric
 /// attributes associated with referenced entities.
 class CounterAttribute {
   /// Creates a counter attribute for a specific item and attribute name.
-  /// 
+  ///
   /// [attrId] - Identifier of the item this attribute belongs to
   /// [attrName] - Name of the attribute
   /// [_changes] - Change tracking map
@@ -466,12 +468,12 @@ class CounterAttribute {
 }
 
 /// Typed value attribute attached to items in reference views.
-/// 
+///
 /// Provides typed value storage and modification for attributes
 /// associated with referenced entities.
 class ValueRefAttribute<T> {
   /// Creates a value attribute for a specific item and attribute name.
-  /// 
+  ///
   /// [attrId] - Identifier of the item this attribute belongs to
   /// [attrName] - Name of the attribute
   /// [_changes] - Change tracking map

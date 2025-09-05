@@ -77,7 +77,7 @@ abstract class EntityContext {
   /// Id of the entity that handles the current command
   EntityId get entityId;
 
-  /// Id of the actor or flow that sent the current command
+  /// Id of the entity or project that sent the current command
   EntityId get senderId;
 
   /// Current system time for timestamping events

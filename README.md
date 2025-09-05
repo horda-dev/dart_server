@@ -234,7 +234,7 @@ class CounterIncremented extends RemoteEvent {
 
 ## Links
 
-- [Horda Client](https://horda.ai) - Horda client for Flutter apps
+- [Horda Client](https://github.com/horda-ai/dart_client) - Horda client for Flutter apps
+- [Example Projects](https://github.com/horda-ai/dart_examples) - Examples that demonstrate Horda's features
 - [Pub Packages](https://pub.dev/publishers/horda.dev/packages) - Horda packages on pub.dev
-- [GitHub Repository](https://github.com/horda-ai) - Horda repositories
-- [Horda Platform](https://github.com/horda-ai/dart_client) - Horda platform website
+- [Horda Platform](https://horda.ai) - Horda platform website
