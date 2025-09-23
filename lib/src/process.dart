@@ -45,8 +45,8 @@ abstract class ProcessContext {
   /// Unique identifier for the current process instance.
   String get processId;
 
-  /// Identifier of the component that sent the triggering event.
-  String get senderId;
+  /// Identifier of the entity or user that sent the triggering event.
+  String? get senderId;
 
   //
   // Entity Communication

@@ -1,3 +1,7 @@
+## 0.13.0
+
+ - **BREAKING CHANGE**: make ProcessContext.senderId nullable
+
 ## 0.12.1
 
  - **DOCS**: readme file
