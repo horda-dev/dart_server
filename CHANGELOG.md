@@ -1,3 +1,7 @@
+## 0.14.0
+
+ - **FEAT**: update horda_core to 0.14.0
+
 ## 0.13.0
 
  - **BREAKING CHANGE**: make ProcessContext.senderId nullable
