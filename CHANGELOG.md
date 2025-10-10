@@ -1,3 +1,7 @@
+## 0.15.0
+
+ - **FEAT**: update horda_core to 0.15.0
+
 ## 0.14.0
 
  - **FEAT**: update horda_core to 0.14.0
