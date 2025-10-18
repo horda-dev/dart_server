@@ -45,6 +45,9 @@ abstract class EntityHandlers<S extends EntityState> {
   void addStateFromJson(FromJsonFun<S> fromJson);
 }
 
+/// The constant ID used for all singleton entities.
+const kSingletonId = 'singleton';
+
 /// Stateful component that represents a business domain entity.
 ///
 /// Entities handle commands in strict FIFO order, maintaining persistent state
@@ -55,6 +58,30 @@ abstract class EntityHandlers<S extends EntityState> {
 abstract class Entity<S extends EntityState> {
   /// Returns the entity type name used for identification.
   String get name => runtimeType.toString();
+
+  /// Returns the initial state for singleton entities.
+  ///
+  /// Override this getter to create a singleton entity that is pre-initialized
+  /// at deployment time without requiring an init command. Singleton entities
+  /// are automatically created with the constant ID [kSingletonId] and can only
+  /// be addressed using that ID.
+  ///
+  /// Use singleton entities for:
+  /// - Application-wide settings or configuration
+  /// - System state that exists exactly once
+  /// - Global counters or registries
+  ///
+  /// Returns `null` by default, indicating a regular entity that requires
+  /// an init command to create instances.
+  ///
+  /// Example:
+  /// ```dart
+  /// class AppSettingsEntity extends Entity<AppSettingsState> {
+  ///   @override
+  ///   AppSettingsState? get singleton => AppSettingsState(theme: 'dark');
+  /// }
+  /// ```
+  S? get singleton => null;
 
   /// Registers command handlers and state management functions.
   ///

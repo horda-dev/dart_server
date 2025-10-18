@@ -1,3 +1,7 @@
+## 0.16.0
+
+ - **FEAT**: add singleton entity support
+
 ## 0.15.0
 
  - **FEAT**: update horda_core to 0.15.0
