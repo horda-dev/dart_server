@@ -45,9 +45,6 @@ abstract class EntityHandlers<S extends EntityState> {
   void addStateFromJson(FromJsonFun<S> fromJson);
 }
 
-/// The constant ID used for all singleton entities.
-const kSingletonId = 'singleton';
-
 /// Stateful component that represents a business domain entity.
 ///
 /// Entities handle commands in strict FIFO order, maintaining persistent state
