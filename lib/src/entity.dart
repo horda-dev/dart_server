@@ -101,8 +101,8 @@ abstract class EntityContext {
   /// Id of the entity that handles the current command
   EntityId get entityId;
 
-  /// Id of the entity or project that sent the current command
-  EntityId get senderId;
+  /// Id of the process or user that sent the current command
+  String? get senderId;
 
   /// Current system time for timestamping events
   DateTime get clock;

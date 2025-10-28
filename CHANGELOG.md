@@ -1,3 +1,7 @@
+## 0.17.0
+
+ - **FEAT**: make EntityContext.senderId nullable
+
 ## 0.16.0
 
  - **FEAT**: add singleton entity support
