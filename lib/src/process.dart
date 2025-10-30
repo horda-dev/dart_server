@@ -4,20 +4,20 @@ import 'package:horda_core/horda_core.dart';
 ///
 /// Receives an event that triggers a business process and coordinates
 /// multiple entities and services to fulfill the client-initiated request.
-typedef ProcessHandler<E extends RemoteEvent> =
-    Future<FlowResult> Function(E event, ProcessContext context);
+typedef ProcessFunc<E extends RemoteEvent> =
+    Future<ProcessResult> Function(E event, ProcessContext context);
 
 /// Registry for business process event handlers.
 ///
 /// Manages the registration of handlers that respond to events
 /// and orchestrate business processes across entities and services.
-abstract class ProcessHandlers {
+abstract class ProcessFuncs {
   /// Registers an event handler for a specific event type.
   ///
   /// [handler] - Function that processes the event and coordinates the business process
   /// [fromJson] - Deserializer for the event type
   void add<E extends RemoteEvent>(
-    ProcessHandler<E> handler,
+    ProcessFunc<E> handler,
     FromJsonFun<E> fromJson,
   );
 }
@@ -29,12 +29,12 @@ abstract class ProcessHandlers {
 /// - Receiving events as results of command handling
 /// - Making decisions based on event types and payloads
 /// - Completing when all required work is done
-abstract class Process {
+abstract class ProcessGroup {
   /// Registers event handlers for this business process.
   ///
   /// Called during process setup to configure which events
   /// trigger this process and how they are handled.
-  void initHandlers(ProcessHandlers handlers);
+  void registerFuncs(ProcessFuncs funcs);
 }
 
 /// Context provided to business process handlers during event processing.
