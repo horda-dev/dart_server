@@ -1,6 +1,6 @@
 ## 0.17.0
 
- - **FEAT**: separate `EntityContext.senderId` into nullable `processId` and `userId`
+ - **FEAT**: make EntityContext.senderId nullable
 
 ## 0.16.0
 
