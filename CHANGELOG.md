@@ -1,3 +1,13 @@
+## 0.18.0
+
+ - **BREAKING CHANGE**: rename process-related types and methods:
+   - `ProcessHandler` → `ProcessFunc`
+   - `ProcessHandlers` → `ProcessFuncs`
+   - `Process` → `ProcessGroup`
+   - `Process.initHandlers()` → `ProcessGroup.registerFuncs()`
+   - `FlowResult` → `ProcessResult`
+ - **FEAT**: update horda_core to 0.17.0
+
 ## 0.17.0
 
  - **FEAT**: make EntityContext.senderId nullable

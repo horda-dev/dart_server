@@ -162,7 +162,7 @@ class ValidationService extends Service {
 ### Business Process Example
 
 ```dart
-Future<FlowResult> create(
+Future<ProcessResult> create(
   CreateCounterRequested event,
   ProcessContext context,
 ) async {
@@ -178,7 +178,7 @@ Future<FlowResult> create(
 
   // if name is invalid finish the process with an error
   if (!validationResult.isValid) {
-    return FlowResult.error('counter name is invalid');
+    return ProcessResult.error('counter name is invalid');
   }
 
   // create counter entity
@@ -197,7 +197,7 @@ Future<FlowResult> create(
     fac: CounterAddedToList.fromJson,
   );
 
-  return FlowResult.ok(newCounterId);
+  return ProcessResult.ok(newCounterId);
 }
 ```
 
