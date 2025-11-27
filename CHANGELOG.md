@@ -1,3 +1,7 @@
+## 0.19.0
+
+ - **FEAT**: update horda_core to 0.18.0
+
 ## 0.18.0
 
  - **BREAKING CHANGE**: rename process-related types and methods:
