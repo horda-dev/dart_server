@@ -390,7 +390,7 @@ class RefListView<E extends Entity> extends View {
         key: entityId!,
         name: name,
         value: _initValue,
-        type: 'List<String>',
+        type: 'RefListView',
       ),
     ];
   }
