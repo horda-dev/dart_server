@@ -339,26 +339,24 @@ class RefListView<E extends Entity> extends View {
   @override
   final String name;
 
-  void addItem(EntityId itemId) {
-    _changes.add(ListViewItemAdded(itemId));
+  void addItem(String key, EntityId value) {
+    _changes.add(ListViewItemAdded(key, value));
   }
 
-  void addItemIfAbsent(EntityId itemId) {
-    _changes.add(ListViewItemAddedIfAbsent(itemId));
+  void addItemIfAbsent(String key, EntityId value) {
+    _changes.add(ListViewItemAddedIfAbsent(key, value));
   }
 
-  void removeItem(EntityId itemId) {
-    _changes.add(ListViewItemRemoved(itemId));
+  void removeItem(String key) {
+    _changes.add(ListViewItemRemoved(key));
   }
 
-  void changeItem(EntityId oldItemId, EntityId newItemId) {
-    _changes.add(
-      ListViewItemChanged(oldItemId: oldItemId, newItemId: newItemId),
-    );
+  void changeItem(String key, EntityId value) {
+    _changes.add(ListViewItemChanged(key: key, value: value));
   }
 
-  void moveItem(EntityId itemId, int newIndex) {
-    _changes.add(ListViewItemMoved(itemId, newIndex));
+  void moveItem(String key, String toKey) {
+    _changes.add(ListViewItemMoved(key, toKey));
   }
 
   void clear() {
