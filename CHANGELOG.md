@@ -1,3 +1,14 @@
+## 0.20.0
+
+ - **BREAKING CHANGE**: RefListView API methods now use keys instead of EntityIds:
+   - `addItem()` and `addItemIfAbsent()` now auto-generate xid keys
+   - `removeItem()` takes `String key` instead of `EntityId`
+   - `changeItem()` takes `String key, EntityId value` instead of old/new EntityIds
+   - `moveItem()` takes `String key, String toKey` instead of EntityId and index
+ - **FIX**: RefListView type in InitViewData changed from 'List<String>' to 'RefListView'
+ - **FEAT**: add xid dependency for key generation
+ - **FEAT**: update horda_core to 0.19.0
+
 ## 0.19.0
 
  - **FEAT**: update horda_core to 0.18.0
