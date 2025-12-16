@@ -1,3 +1,7 @@
+## 0.21.0
+
+ - **FEAT**: update horda_core to 0.20.0
+
 ## 0.20.0
 
  - **BREAKING CHANGE**: RefListView API methods now use keys instead of EntityIds:
