@@ -117,6 +117,21 @@ abstract class EntityContext {
 
   /// Stops the entity, preventing it from processing further commands.
   void stop();
+
+  /// Schedules an event to trigger a business process after a delay.
+  ///
+  /// [after] - Delay before dispatching the event
+  /// [event] - Event to dispatch to trigger the business process
+  /// Returns schedule ID that can be used to cancel the scheduled event
+  Future<String> scheduleProcess({
+    required RemoteEvent event,
+    required Duration after,
+  });
+
+  /// Cancels a previously scheduled process event.
+  ///
+  /// [scheduleId] - ID returned from scheduleProcess
+  void unscheduleProcess({required String scheduleId});
 }
 
 /// Function that creates initial entity state from an init event.

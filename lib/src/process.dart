@@ -91,26 +91,6 @@ abstract class ProcessContext {
     required RemoteCommand cmd,
   });
 
-  /// Schedules a command to be sent to an entity after a delay.
-  ///
-  /// [name] - Entity type name
-  /// [id] - Specific entity instance identifier
-  /// [after] - Delay before sending the command
-  /// [cmd] - Command to send to the entity
-  /// Returns schedule ID that can be used to cancel the scheduled command
-  Future<String> scheduleEntity({
-    required String name,
-    required EntityId id,
-    required Duration after,
-    required RemoteCommand cmd,
-  });
-
-  /// Cancels a previously scheduled entity command.
-  ///
-  /// [name] - Entity type name
-  /// [scheduleId] - ID returned from scheduleEntity
-  void unscheduleEntity({required String name, required String scheduleId});
-
   //
   // Service Communication
   //
@@ -144,22 +124,4 @@ abstract class ProcessContext {
   /// [name] - Service type name
   /// [cmd] - Command to send to the service
   void sendService({required String name, required RemoteCommand cmd});
-
-  /// Schedules a command to be sent to a service after a delay.
-  ///
-  /// [name] - Service type name
-  /// [after] - Delay before sending the command
-  /// [cmd] - Command to send to the service
-  /// Returns schedule ID that can be used to cancel the scheduled command
-  Future<String> scheduleService({
-    required String name,
-    required Duration after,
-    required RemoteCommand cmd,
-  });
-
-  /// Cancels a previously scheduled service command.
-  ///
-  /// [name] - Service type name
-  /// [scheduleId] - ID returned from scheduleService
-  void unscheduleService({required String name, required String scheduleId});
 }
