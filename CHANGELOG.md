@@ -1,3 +1,8 @@
+## 0.22.0
+
+ - **FEAT**: add process scheduling api
+ - **DEPRECATION**: command scheduling API in ProcessContext is now deprecated
+
 ## 0.21.0
 
  - **FEAT**: update horda_core to 0.20.0

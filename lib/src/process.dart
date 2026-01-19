@@ -98,6 +98,7 @@ abstract class ProcessContext {
   /// [after] - Delay before sending the command
   /// [cmd] - Command to send to the entity
   /// Returns schedule ID that can be used to cancel the scheduled command
+  @Deprecated('Use process scheduling in EntityContext instead')
   Future<String> scheduleEntity({
     required String name,
     required EntityId id,
@@ -109,6 +110,7 @@ abstract class ProcessContext {
   ///
   /// [name] - Entity type name
   /// [scheduleId] - ID returned from scheduleEntity
+  @Deprecated('Use process scheduling in EntityContext instead')
   void unscheduleEntity({required String name, required String scheduleId});
 
   //
@@ -151,6 +153,7 @@ abstract class ProcessContext {
   /// [after] - Delay before sending the command
   /// [cmd] - Command to send to the service
   /// Returns schedule ID that can be used to cancel the scheduled command
+  @Deprecated('Use process scheduling in EntityContext instead')
   Future<String> scheduleService({
     required String name,
     required Duration after,
@@ -161,5 +164,6 @@ abstract class ProcessContext {
   ///
   /// [name] - Service type name
   /// [scheduleId] - ID returned from scheduleService
+  @Deprecated('Use process scheduling in EntityContext instead')
   void unscheduleService({required String name, required String scheduleId});
 }
