@@ -1,3 +1,7 @@
+## 0.22.1
+
+ - **CHORE**: update horda_core to 0.20.1
+
 ## 0.22.0
 
  - **FEAT**: add process scheduling api
