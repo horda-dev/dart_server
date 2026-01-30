@@ -1,3 +1,10 @@
+## 0.23.0
+
+ - **BREAKING CHANGE**: RefListView API refactored:
+   - `addItem()` and `removeItem()` now use `refId` parameter directly
+   - `addItemIfAbsent()`, `changeItem()`, and `moveItem()` methods removed
+ - **FEAT**: update horda_core to 0.21.0
+
 ## 0.22.1
 
  - **CHORE**: update horda_core to 0.20.1
