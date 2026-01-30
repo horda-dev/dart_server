@@ -1,5 +1,4 @@
 import 'package:horda_core/horda_core.dart';
-import 'package:xid/xid.dart';
 
 import 'entity.dart';
 
@@ -340,28 +339,12 @@ class RefListView<E extends Entity> extends View {
   @override
   final String name;
 
-  void addItem(EntityId value) {
-    final xid = Xid();
-    final key = xid.toString();
-    _changes.add(ListViewItemAdded(key, value));
+  void addItem(EntityId refId) {
+    _changes.add(ListViewItemAdded(refId));
   }
 
-  void addItemIfAbsent(EntityId value) {
-    final xid = Xid();
-    final key = xid.toString();
-    _changes.add(ListViewItemAddedIfAbsent(key, value));
-  }
-
-  void removeItem(String key) {
-    _changes.add(ListViewItemRemoved(key));
-  }
-
-  void changeItem(String key, EntityId value) {
-    _changes.add(ListViewItemChanged(key: key, value: value));
-  }
-
-  void moveItem(String key, String toKey) {
-    _changes.add(ListViewItemMoved(key, toKey));
+  void removeItem(String refId) {
+    _changes.add(ListViewItemRemoved(refId));
   }
 
   void clear() {
